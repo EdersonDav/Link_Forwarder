@@ -1,26 +1,14 @@
 import express from "express";
-import mongoose from "mongoose";
 const app = express();
 const PORT = 5000;
 import router from "./routes/router";
+import connectDB from "./database/connectiondatabase";
+import path from "path";
 
-//Criando conexão com o banco
-mongoose.connect("mongodb://localhost/links", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+connectDB();
 
-const db = mongoose.connection;
-
-//Mensagem para evento de erro
-db.on("error", () => {
-  console.log("Houve um erro");
-});
-
-//Mensagem que mostra apenas uma vez
-db.once("open", () => {
-  console.log("Banco conectado");
-});
+app.set("view engine", "ejs");
+app.set("views", path.resolve(__dirname, "views"));
 
 app.use("/", router);
 
