@@ -2,16 +2,31 @@ import express from "express";
 import mongoose from "mongoose";
 const app = express();
 const PORT = 5000;
+import router from "./routes/router";
 
-const linkSchema = new mongoose.Schema({
-  clicks: { type: Number, default: 0 },
-  title: { type: String, require: true },
-  description: String,
-  url: { type: String, require: true },
+//Criando conexão com o banco
+mongoose.connect("mongodb://localhost/links", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-//Criando o model
-const Link = mongoose.model("Link", linkSchema);
+const db = mongoose.connection;
+
+//Mensagem para evento de erro
+db.on("error", () => {
+  console.log("Houve um erro");
+});
+
+//Mensagem que mostra apenas uma vez
+db.once("open", () => {
+  console.log("Banco conectado");
+});
+
+app.use("/", router);
+
+app.listen(PORT, () => {
+  console.log("Server Rurning port 5000");
+});
 
 //Fazendo o insert
 // let link = new Link({
@@ -30,38 +45,3 @@ const Link = mongoose.model("Link", linkSchema);
 //   .catch((error) => {
 //     console.log(error);
 //   });
-
-//Criando conexão com o banco
-mongoose.connect("mongodb://localhost/links", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-
-//Mensagem para evento de erro
-db.on("error", () => {
-  console.log("Houve um erro");
-});
-
-//Mensagem que mostra apenas uma vez
-db.once("open", () => {
-  console.log("Banco conectado");
-  app.get("/:title", async (req, res) => {
-    let title = req.params.title;
-    try {
-      let doc = await Link.findOne({ title });
-      res.redirect(doc.url);
-    } catch (error) {
-      res.send(error);
-    }
-  });
-});
-
-app.get("/", (req, res) => {
-  res.json({ message: "Hello World" });
-});
-
-app.listen(PORT, () => {
-  console.log("Server Rurning port 5000");
-});
