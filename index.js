@@ -4,32 +4,32 @@ const app = express();
 const PORT = 5000;
 
 const linkSchema = new mongoose.Schema({
-  clicks: Number,
-  title: String,
+  clicks: { type: Number, default: 0 },
+  title: { type: String, require: true },
   description: String,
-  url: String,
+  url: { type: String, require: true },
 });
 
 //Criando o model
 const Link = mongoose.model("Link", linkSchema);
 
 //Fazendo o insert
-let link = new Link({
-  clicks: 0,
-  title: "LinkedIn",
-  description: "LinkedIn Ederson",
-  url: "www.linkedin.com/in/ederson-silva-79b46110b",
-});
+// let link = new Link({
+//   clicks: 0,
+//   title: "LinkedIn",
+//   description: "LinkedIn Ederson",
+//   url: "www.linkedin.com/in/ederson-silva-79b46110b",
+// });
 
 //Salvando no banco
-link
-  .save()
-  .then((doc) => {
-    console.log(doc);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+// link
+//   .save()
+//   .then((doc) => {
+//     console.log(doc);
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
 
 //Criando conexão com o banco
 mongoose.connect("mongodb://localhost/links", {
@@ -47,6 +47,15 @@ db.on("error", () => {
 //Mensagem que mostra apenas uma vez
 db.once("open", () => {
   console.log("Banco conectado");
+  app.get("/:title", async (req, res) => {
+    let title = req.params.title;
+    try {
+      let doc = await Link.findOne({ title });
+      res.redirect(doc.url);
+    } catch (error) {
+      res.send(error);
+    }
+  });
 });
 
 app.get("/", (req, res) => {
