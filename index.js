@@ -3,12 +3,33 @@ import mongoose from "mongoose";
 const app = express();
 const PORT = 5000;
 
-const loinkSchema = new mongoose.Schema({
+const linkSchema = new mongoose.Schema({
   clicks: Number,
   title: String,
   description: String,
   url: String,
 });
+
+//Criando o model
+const Link = mongoose.model("Link", linkSchema);
+
+//Fazendo o insert
+let link = new Link({
+  clicks: 0,
+  title: "LinkedIn",
+  description: "LinkedIn Ederson",
+  url: "www.linkedin.com/in/ederson-silva-79b46110b",
+});
+
+//Salvando no banco
+link
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 //Criando conexão com o banco
 mongoose.connect("mongodb://localhost/links", {
