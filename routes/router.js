@@ -8,4 +8,10 @@ router.get("/", (req, res) => {
   res.json({ message: "Hello World" });
 });
 
+router.post(
+  "/",
+  express.urlencoded({ extended: true }),
+  linkController.addLink
+);
+
 export default router;

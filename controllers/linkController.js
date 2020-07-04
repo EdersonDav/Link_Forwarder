@@ -9,6 +9,16 @@ const controller = {
       res.send("Houve um erro");
     }
   },
+
+  addLink: async (req, res) => {
+    let link = new Link(req.body);
+    try {
+      let doc = await link.save();
+      res.send(doc);
+    } catch (err) {
+      res.send(err);
+    }
+  },
 };
 
 export default controller;
