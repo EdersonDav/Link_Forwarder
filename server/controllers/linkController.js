@@ -12,7 +12,7 @@ const controller = {
   redirect: async (req, res, next) => {
     let title = req.params.title;
     try {
-      let doc = await Link.findOne({ title });
+      let doc = await Link.findOneAndUpdate({ title }, { $inc: { clicks: 1 } });
       if (doc) {
         res.redirect(doc.url);
       } else {

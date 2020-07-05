@@ -9,6 +9,10 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <title>Links</title>
   </head>
   <body>
@@ -16,7 +20,7 @@
       <h1>Links</h1>
       <a href="/add">Add new link</a>
       <% for (let i = 0; i< links.length; i++) {%>
-      <div class="cart" id="<%=links[i]._id %>">
+      <div class="cart p-3 mb-3" id="<%=links[i]._id %>">
         <form
           class="d-flex align-items-center justify-content-between"
           method="POST"
@@ -25,11 +29,17 @@
           <div class="d-flex flex-column">
             <h2><%=links[i].title %></h2>
             <div><%= links[i].description %></div>
-            <div><%= links[i].url %></div>
+            <a class="text-muted" href="/<%= links[i].title %>" target="blank"
+              ><%= links[i].url %></a
+            >
+            <div class="text-info">
+              <i class="material-icons">bar_chart</i> Clicks: <%=
+              links[i].clicks %>
+            </div>
           </div>
-          <div>
-            <button type="submit">Delete</button>
-            <a href="/edit/<%=links[i]._id %>">Edit</a>
+          <div class="d-flex flex-column">
+            <a class="btn btn-info" href="/edit/<%=links[i]._id %>">Edit</a>
+            <button class="btn btn-danger mt-1" type="submit">Delete</button>
           </div>
         </form>
       </div>
