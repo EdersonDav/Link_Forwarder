@@ -27,9 +27,9 @@ const controller = {
     let link = new Link(req.body);
     try {
       let doc = await link.save();
-      res.send("Link adicionado com sucesso");
+      res.redirect("/");
     } catch (error) {
-      res.render("index", { error, body: req.body });
+      res.render("add", { error, body: req.body });
     }
   },
 
@@ -40,9 +40,36 @@ const controller = {
     }
     try {
       await Link.findByIdAndDelete(linkid);
-      res.redirect("/all");
+      res.redirect("/");
     } catch (error) {
       res.status(404).send(error);
+    }
+  },
+
+  loadLink: async (req, res) => {
+    let linkid = req.params.id;
+    try {
+      let doc = await Link.findById(linkid);
+      res.render("edit", { error: false, body: doc });
+    } catch (error) {
+      res.status(404).send(error);
+    }
+  },
+
+  editLink: async (req, res) => {
+    let link = {};
+    link.title = req.body.title;
+    link.url = req.body.url;
+    link.description = req.body.description;
+    try {
+      let linkid = req.params.id;
+      if (!linkid) {
+        linkid = req.body.id;
+      }
+      let doc = await Link.updateOne({ _id: linkid }, link);
+      res.redirect("/");
+    } catch (error) {
+      res.render("edit", { error, body: req.body });
     }
   },
 };

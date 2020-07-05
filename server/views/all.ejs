@@ -3,18 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
     <title>Links</title>
   </head>
   <body>
-    <% for (let i = 0; i< links.length; i++) {%>
-    <form method="POST" action="/<%=links[i]._id %>?_method=DELETE">
-      <div id="<%=links[i]._id %>">
-        <h2><%=links[i].title %></h2>
-        <div><%= links[i].description %></div>
-        <div><%= links[i].url %></div>
-        <button type="submit">Delete</button>
+    <div class="container">
+      <h1>Links</h1>
+      <a href="/add">Add new link</a>
+      <% for (let i = 0; i< links.length; i++) {%>
+      <div class="cart" id="<%=links[i]._id %>">
+        <form
+          class="d-flex align-items-center justify-content-between"
+          method="POST"
+          action="/<%=links[i]._id %>?_method=DELETE"
+        >
+          <div class="d-flex flex-column">
+            <h2><%=links[i].title %></h2>
+            <div><%= links[i].description %></div>
+            <div><%= links[i].url %></div>
+          </div>
+          <div>
+            <button type="submit">Delete</button>
+            <a href="/edit/<%=links[i]._id %>">Edit</a>
+          </div>
+        </form>
       </div>
-    </form>
-    <% } %>
+      <% } %>
+    </div>
   </body>
 </html>

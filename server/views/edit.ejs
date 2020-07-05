@@ -6,7 +6,9 @@
     <title>Redirection</title>
   </head>
   <body>
-    <form action="/" method="post">
+    <h1>Edit Link</h1>
+    <a href="/">My links</a>
+    <form action="/edit/<%= body.id %>" method="POST">
       <input
         type="text"
         class="field"
@@ -30,7 +32,7 @@
         value="<%= body.url %>"
         required
       />
-      <button>Save</button>
+      <button>Edit</button>
       <% if(error){%>
       <h3><%= error.message %></h3>
       <%} %>
