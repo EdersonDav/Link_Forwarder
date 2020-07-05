@@ -7,11 +7,14 @@
   </head>
   <body>
     <% for (let i = 0; i< links.length; i++) {%>
-    <div id="<%links[i].id %>">
-      <h2><%=links[i].title %></h2>
-      <div><%= links[i].description %></div>
-      <div><%= links[i].url %></div>
-    </div>
+    <form method="POST" action="/<%=links[i]._id %>?_method=DELETE">
+      <div id="<%=links[i]._id %>">
+        <h2><%=links[i].title %></h2>
+        <div><%= links[i].description %></div>
+        <div><%= links[i].url %></div>
+        <button type="submit">Delete</button>
+      </div>
+    </form>
     <% } %>
   </body>
 </html>

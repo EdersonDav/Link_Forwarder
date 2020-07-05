@@ -39,9 +39,10 @@ const controller = {
       linkid = req.body.id;
     }
     try {
-      res.send(await Link.findByIdAndDelete(linkid));
+      await Link.findByIdAndDelete(linkid);
+      res.redirect("/all");
     } catch (error) {
-      res.render(error);
+      res.status(404).send(error);
     }
   },
 };
